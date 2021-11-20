@@ -52,6 +52,12 @@ class _LandingPageState extends State<LandingPage> {
                     vpnText,
                     style: GoogleFonts.lato(color: Colors.white, fontSize: 17),
                   ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: HexColor.fromHex('#53D29A')),
+                        borderRadius: BorderRadius.circular(20)),
+                  )
                 ],
               ),
             )
