@@ -129,24 +129,22 @@ class _LandingPageState extends State<LandingPage>
                   vpnText,
                   style: GoogleFonts.lato(color: Colors.white, fontSize: 17),
                 ),
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      top: 40,
-                      left: 70,
+                Container(
+                  margin: const EdgeInsets.only(
+                    top: 40,
+                    left: 50,
+                  ),
+                  child: const ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Image(
+                        image: AssetImage(
+                            'assets/images/toppng.com-flag-graphics-of-italy-peru-flag-icon-1071x1070.png'),
+                      ),
                     ),
-                    child: const ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        child: Image(
-                          image: AssetImage(
-                              'assets/images/toppng.com-flag-graphics-of-italy-peru-flag-icon-1071x1070.png'),
-                        ),
-                      ),
-                      title: Text(
-                        '293.763.108.312',
-                        style: TextStyle(fontSize: 27, color: Colors.white),
-                      ),
+                    title: Text(
+                      '293.763.108.312',
+                      style: TextStyle(fontSize: 27, color: Colors.white),
                     ),
                   ),
                 ),
@@ -162,18 +160,17 @@ class _LandingPageState extends State<LandingPage>
                   child: Center(
                     child: AnimatedContainer(
                       margin: const EdgeInsets.only(top: 40),
-                      height: MediaQuery.of(context).size.height * 0.318,
-                      width: MediaQuery.of(context).size.width * 0.60,
+                      height: 250,
+                      width: 250,
                       duration: const Duration(milliseconds: 500),
                       decoration: BoxDecoration(
                           border: Border.all(
                               color: HexColor.fromHex('#53D29A'),
                               width:
                                   _flutterVpnState == FlutterVpnState.connected
-                                      ? 18
+                                      ? 17
                                       : 3),
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.width * 0.60 / 2)),
+                          borderRadius: BorderRadius.circular(140)),
                       child: _flutterVpnState == FlutterVpnState.connected
                           ? AnimatedContainer(
                               duration: const Duration(milliseconds: 500),
