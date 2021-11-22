@@ -256,6 +256,46 @@ class _LandingPageState extends State<LandingPage>
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 80,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.80,
+                  padding: const EdgeInsets.symmetric(vertical: 7),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(35)),
+                    color: Colors.grey,
+                  ),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        child: Image(
+                          image: AssetImage(
+                              'assets/images/toppng.com-flag-graphics-of-italy-peru-flag-icon-1071x1070.png'),
+                          height: 30,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 9),
+                        child: const Text(
+                          'Italy - Rome',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 19,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.29,
+                      ),
+                      const Icon(Icons.arrow_forward_ios_rounded,
+                          size: 14, color: Colors.white)
+                    ],
+                  ),
+                ),
               ],
             )
           ],
