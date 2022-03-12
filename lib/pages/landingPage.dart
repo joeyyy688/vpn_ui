@@ -238,10 +238,6 @@ class _LandingPageState extends State<LandingPage>
                                     ),
                                   ),
                                   const SizedBox(height: 10),
-                                  // Text(
-                                  //   connectionButtonState(
-                                  //       state: _flutterVpnState),
-                                  // )
                                 ],
                               ),
                             )
@@ -302,15 +298,3 @@ class _LandingPageState extends State<LandingPage>
         ));
   }
 }
-
-
-
-// LinearGradient(colors: <Color>[
-//                                 HexColor.fromHex('#53D29A'),
-//                                 HexColor.fromHex('#64d7a4'),
-//                                 HexColor.fromHex('#75dbae'),
-//                                 HexColor.fromHex('#87e0b8'),
-//                                 HexColor.fromHex('#98e4c2'),
-//                                 HexColor.fromHex('#a9e9cd'),
-//                                 HexColor.fromHex('#baedd7'),
-//                               ])
