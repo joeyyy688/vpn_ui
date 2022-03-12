@@ -61,6 +61,7 @@ class _LandingPageState extends State<LandingPage>
   late final status = "Connect";
   late final vpnText = "Your current IP ";
   late var _flutterVpnState = FlutterVpnState.disconnected;
+  late bool switchValue = false;
 
   @override
   void initState() {
@@ -92,209 +93,238 @@ class _LandingPageState extends State<LandingPage>
     final minutesStr = minutes.toString().padLeft(2, '0');
     const digitWidth = 20.0;
     return Scaffold(
+      backgroundColor: HexColor.fromHex("#113250"),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: HexColor.fromHex("#113250"),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: HexColor.fromHex("#113250"),
-          elevation: 0,
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.menu_rounded,
-                color: HexColor.fromHex("#2A547C"),
-                size: 35,
-              ),
-              onPressed: () {},
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.menu_rounded,
+              color: HexColor.fromHex("#2A547C"),
+              size: 35,
             ),
-          ],
-        ),
-        body: Column(
-          children: [
-            // Container(
-            //   color: HexColor.fromHex("#113250"),
-            // ),
-            Column(
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 520),
-                  child: Text(
-                    connectionButtonState(state: _flutterVpnState),
-                    style: GoogleFonts.lato(color: Colors.white, fontSize: 24),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          // Container(
+          //   color: HexColor.fromHex("#113250"),
+          // ),
+          Column(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 520),
+                child: Text(
+                  connectionButtonState(state: _flutterVpnState),
+                  style: GoogleFonts.lato(color: Colors.white, fontSize: 24),
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Text(
+                vpnText,
+                style: GoogleFonts.lato(color: Colors.white, fontSize: 17),
+              ),
+              Container(
+                margin: const EdgeInsets.only(
+                  top: 40,
+                  left: 50,
+                ),
+                child: const ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: Image(
+                      image: AssetImage(
+                          'assets/images/toppng.com-flag-graphics-of-italy-peru-flag-icon-1071x1070.png'),
+                    ),
+                  ),
+                  title: Text(
+                    '293.763.108.312',
+                    style: TextStyle(fontSize: 27, color: Colors.white),
                   ),
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
-                Text(
-                  vpnText,
-                  style: GoogleFonts.lato(color: Colors.white, fontSize: 17),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    top: 40,
-                    left: 50,
+              ),
+              GestureDetector(
+                onTap: () {
+                  if (_flutterVpnState == FlutterVpnState.disconnected) {
+                    setState(() {
+                      _flutterVpnState = FlutterVpnState.connected;
+                    });
+                    _ticker.start();
+                  }
+                },
+                child: Center(
+                  child: AnimatedContainer(
+                    margin: const EdgeInsets.only(top: 40),
+                    height: 250,
+                    width: 250,
+                    duration: const Duration(milliseconds: 500),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: HexColor.fromHex('#53D29A'),
+                            width: _flutterVpnState == FlutterVpnState.connected
+                                ? 17
+                                : 3),
+                        borderRadius: BorderRadius.circular(140)),
+                    child: _flutterVpnState == FlutterVpnState.connected
+                        ? AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              //color: HexColor.fromHex("#2A547C"),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "DURATION",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey.shade600),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TimeDigit(minutesStr.substring(0, 1),
+                                          width: digitWidth),
+                                      TimeDigit(minutesStr.substring(1, 2),
+                                          width: digitWidth),
+                                      const TimeDigit(':', width: 6),
+                                      TimeDigit(secondsStr.substring(0, 1),
+                                          width: digitWidth),
+                                      TimeDigit(secondsStr.substring(1, 2),
+                                          width: digitWidth),
+                                      const TimeDigit(':', width: 6),
+                                      TimeDigit(hundredsStr.substring(0, 1),
+                                          width: digitWidth),
+                                      TimeDigit(hundredsStr.substring(1, 2),
+                                          width: digitWidth),
+                                    ],
+                                  ),
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                  indent: 30,
+                                  endIndent: 30,
+                                  thickness: 3,
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 16),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      if (_flutterVpnState ==
+                                          FlutterVpnState.connected) {
+                                        setState(() {
+                                          _flutterVpnState =
+                                              FlutterVpnState.disconnected;
+                                        });
+                                      }
+                                      _ticker.stop();
+                                    },
+                                    icon: const Icon(
+                                      Icons.power_settings_new_rounded,
+                                      color: Colors.red,
+                                      size: 50,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                // Text(
+                                //   connectionButtonState(
+                                //       state: _flutterVpnState),
+                                // )
+                              ],
+                            ),
+                          )
+                        : AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            child: Icon(
+                              Icons.power_settings_new_rounded,
+                              color: HexColor.fromHex('#53D29A'),
+                              size: 80,
+                            ),
+                          ),
                   ),
-                  child: const ListTile(
-                    leading: CircleAvatar(
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.90,
+                padding: const EdgeInsets.symmetric(vertical: 7),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(35)),
+                  color: HexColor.fromHex('#0e2840'),
+                ),
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const CircleAvatar(
                       backgroundColor: Colors.transparent,
                       child: Image(
                         image: AssetImage(
                             'assets/images/toppng.com-flag-graphics-of-italy-peru-flag-icon-1071x1070.png'),
+                        height: 30,
                       ),
                     ),
-                    title: Text(
-                      '293.763.108.312',
-                      style: TextStyle(fontSize: 27, color: Colors.white),
+                    Container(
+                      padding: const EdgeInsets.only(left: 9),
+                      child: const Text(
+                        'Italy - Rome',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 19,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (_flutterVpnState == FlutterVpnState.disconnected) {
-                      setState(() {
-                        _flutterVpnState = FlutterVpnState.connected;
-                      });
-                      _ticker.start();
-                    }
-                  },
-                  child: Center(
-                    child: AnimatedContainer(
-                      margin: const EdgeInsets.only(top: 40),
-                      height: 250,
-                      width: 250,
-                      duration: const Duration(milliseconds: 500),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: HexColor.fromHex('#53D29A'),
-                              width:
-                                  _flutterVpnState == FlutterVpnState.connected
-                                      ? 17
-                                      : 3),
-                          borderRadius: BorderRadius.circular(140)),
-                      child: _flutterVpnState == FlutterVpnState.connected
-                          ? AnimatedContainer(
-                              duration: const Duration(milliseconds: 500),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                //color: HexColor.fromHex("#2A547C"),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "DURATION",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.grey.shade600),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TimeDigit(minutesStr.substring(0, 1),
-                                            width: digitWidth),
-                                        TimeDigit(minutesStr.substring(1, 2),
-                                            width: digitWidth),
-                                        const TimeDigit(':', width: 6),
-                                        TimeDigit(secondsStr.substring(0, 1),
-                                            width: digitWidth),
-                                        TimeDigit(secondsStr.substring(1, 2),
-                                            width: digitWidth),
-                                        const TimeDigit(':', width: 6),
-                                        TimeDigit(hundredsStr.substring(0, 1),
-                                            width: digitWidth),
-                                        TimeDigit(hundredsStr.substring(1, 2),
-                                            width: digitWidth),
-                                      ],
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.grey,
-                                    indent: 30,
-                                    endIndent: 30,
-                                    thickness: 3,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 16),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        if (_flutterVpnState ==
-                                            FlutterVpnState.connected) {
-                                          setState(() {
-                                            _flutterVpnState =
-                                                FlutterVpnState.disconnected;
-                                          });
-                                        }
-                                        _ticker.stop();
-                                      },
-                                      icon: const Icon(
-                                        Icons.power_settings_new_rounded,
-                                        color: Colors.red,
-                                        size: 50,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                ],
-                              ),
-                            )
-                          : AnimatedContainer(
-                              duration: const Duration(milliseconds: 500),
-                              child: Icon(
-                                Icons.power_settings_new_rounded,
-                                color: HexColor.fromHex('#53D29A'),
-                                size: 80,
-                              ),
-                            ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.39,
                     ),
-                  ),
+                    const Icon(Icons.arrow_forward_ios_rounded,
+                        size: 14, color: Colors.grey)
+                  ],
                 ),
-                const SizedBox(
-                  height: 80,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.80,
-                  padding: const EdgeInsets.symmetric(vertical: 7),
+              ),
+              Center(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 20, left: 40, right: 40),
                   alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(35)),
-                    color: Colors.grey,
-                  ),
                   child: Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        child: Image(
-                          image: AssetImage(
-                              'assets/images/toppng.com-flag-graphics-of-italy-peru-flag-icon-1071x1070.png'),
-                          height: 30,
-                        ),
+                      const Text(
+                        "Authomatically Select Server",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 9),
-                        child: const Text(
-                          'Italy - Rome',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 19,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.29,
-                      ),
-                      const Icon(Icons.arrow_forward_ios_rounded,
-                          size: 14, color: Colors.white)
+                      Switch.adaptive(
+                        value: switchValue,
+                        onChanged: (value) {
+                          setState(() {
+                            switchValue = value;
+                          });
+                        },
+                      )
                     ],
                   ),
                 ),
-              ],
-            )
-          ],
-        ));
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
